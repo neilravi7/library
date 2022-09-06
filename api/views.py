@@ -7,6 +7,10 @@ class BookSerializers(serializers.ModelSerializer):
         model = Book
         fields = ('id', 'title', 'subtitle', 'author', 'isbn')
 
-class BookAPI(generics.ListAPIView):
+class BookAPIList(generics.ListAPIView):
     queryset = Book.objects.filter()
+    serializer_class = BookSerializers
+
+class BookAPIDetails(generics.RetrieveAPIView):
+    queryset = Book.objects.all()
     serializer_class = BookSerializers

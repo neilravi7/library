@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['waves-of-books.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['waves-of-books.herokuapp.com', 'localhost', '127.0.0.1', "localhost:8000", "localhost:3000"]
 
 
 # Application definition
@@ -41,15 +41,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third party apps
     'rest_framework',
+    'corsheaders',
     # local
     'books.apps.BooksConfig',
     'api.apps.ApiConfig',
+    'accounts.apps.AccountsConfig',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -66,7 +70,7 @@ ROOT_URLCONF = 'dummy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,7 +86,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'dummy.wsgi.application'
 
 
-# Database
+# Database Settings. 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {}
@@ -152,3 +156,22 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Rest of framework settings.
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES":[
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+# CORS Headers Settings:
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:3000",
+    "http://localhost:8000",
+)
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000"
+]
+
